@@ -27,6 +27,16 @@
 
 Нельзя начинать с широкого чтения дерева, если эти файлы существуют и не признаны устаревшими.
 
+Если `CODEBASE_INDEX.md`, `TEST_INDEX.md` или `CHANGE_AREAS.md` отсутствуют или явно устарели, сначала используй скрипты:
+
+1. `tools/scan_project.py`
+2. `tools/init_index.py`
+3. `tools/init_test_index.py`
+4. `tools/init_change_areas.py`
+5. `tools/explain_scan.py`
+
+Ручное заполнение без попытки structural scan должно быть исключением, а не стандартным путем.
+
 ## Rule 3: Search Must Be Narrow
 
 Нельзя начинать поиск с хаотичного чтения файлов.
@@ -119,3 +129,15 @@
 то соответствующие index-файлы нужно обновить до или сразу после завершения задачи.
 
 Иначе система памяти и поиска быстро перестанет работать.
+
+## Rule 11: Prefer Scripted Regeneration Over Manual Rebuild
+
+Если есть локальные workflow-скрипты, сначала используй их для:
+
+- генерации draft index;
+- генерации draft test map;
+- генерации draft change areas;
+- объяснения вывода scanner;
+- частичного refresh существующего индекса.
+
+Полная ручная перепись этих файлов без причины создает drift и делает workflow менее повторяемым.

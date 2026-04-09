@@ -26,6 +26,15 @@ At the start of each task, do this in order:
 7. Decide what stays on the critical path locally.
 8. Decide what can be delegated in parallel.
 
+When these files are missing or stale, prefer generating drafts with the local tools before writing them manually:
+
+- `tools/scan_project.py`
+- `tools/init_index.py`
+- `tools/init_test_index.py`
+- `tools/init_change_areas.py`
+- `tools/refresh_index.py`
+- `tools/explain_scan.py`
+
 Do not begin with broad recursive browsing unless the index is missing or stale.
 
 Do not keep multiple competing summaries of the current task. The canonical live state is `.codex/memory/current-task.md`.
@@ -38,6 +47,13 @@ Default search order:
 2. Use `rg` for symbol names, routes, config keys, error strings, and test names.
 3. Read only the files that are directly relevant.
 4. Prefer targeted ranges over full-file reads for large files.
+
+If the repository has no useful index or test map yet, generate drafts first and then refine:
+
+1. `python tools/scan_project.py --target .`
+2. `python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md`
+3. `python tools/init_test_index.py --target . --output TEST_INDEX.generated.md`
+4. `python tools/init_change_areas.py --target . --output CHANGE_AREAS.generated.md`
 
 Avoid:
 - opening large files end to end without evidence they matter;

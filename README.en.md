@@ -73,6 +73,23 @@ python --version
 python tools/bootstrap.py --target ..\my-project
 ```
 
+## Installation Mode
+
+Bootstrap now installs the full workflow kit by default.
+
+That includes:
+- core workflow documents
+- support workflow documents
+- memory templates
+- CLI tools
+- examples and templates
+
+If you only want the reduced install, use:
+
+```powershell
+python tools/bootstrap.py --target ..\my-project --profile core
+```
+
 ## Mandatory Core
 
 These files are the minimum required set for the workflow to stay strict:
@@ -118,7 +135,7 @@ python3 tools/bootstrap.py --target ../my-project
 python tools/bootstrap.py --target ..\my-project
 ```
 
-This bootstraps the mandatory core into the target project without overwriting existing files unless `--force` is used.
+This bootstraps the full workflow kit into the target project without overwriting existing files unless `--force` is used.
 
 ### Manual Setup
 

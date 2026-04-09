@@ -123,6 +123,12 @@ python tools/bootstrap.py --target ..\my-project
 python tools/bootstrap.py --target ..\my-project --force
 ```
 
+Только core-профиль:
+
+```powershell
+python tools/bootstrap.py --target ..\my-project --profile core
+```
+
 ### scaffold_task.py
 
 Создает или полностью обновляет `.codex/memory/current-task.md`.
@@ -180,7 +186,7 @@ python tools/acceptance_check.py --scope --behavior --verification --regression 
 - Скрипты специально простые и предсказуемые.
 - Они не пытаются анализировать архитектуру за тебя.
 - Их цель: сделать нарушение процесса более заметным и дорогим.
-- `bootstrap.py` копирует только mandatory core, а не весь kit целиком.
+- `bootstrap.py` по умолчанию копирует весь workflow kit; `--profile core` оставляет только уменьшенный набор.
 - `scan_project.py` и `init_index.py` строят черновик архитектурной карты, но не заменяют ручной review.
 - `init_test_index.py` и `init_change_areas.py` дают черновики для test map и change areas, а не финальную архитектурную истину.
 - `refresh_index.py` обновляет только машинные секции и должен использоваться поверх уже просмотренного человеком индекса.
