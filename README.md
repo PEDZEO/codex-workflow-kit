@@ -155,6 +155,8 @@ python tools/bootstrap.py --target ..\my-project
 
 В `tools/` уже есть CLI для принуждения к процессу:
 
+- `scan_project.py` — собрать структурированный JSON summary проекта
+- `init_index.py` — сгенерировать черновик `CODEBASE_INDEX.md`
 - `bootstrap.py` — развернуть mandatory core в новый проект
 - `scaffold_task.py` — создать или обновить `current-task.md`
 - `create_handoff.py` — добавить structured handoff

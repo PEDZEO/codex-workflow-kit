@@ -29,6 +29,12 @@ jobs:
       - name: Validate workflow templates
         run: python tools/validate_workflow.py --memory-dir memory
 
+      - name: Scan project
+        run: python tools/scan_project.py --target . --output scan-summary.json
+
+      - name: Generate draft index
+        run: python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
+
       - name: Scaffold task
         run: >
           python tools/scaffold_task.py

@@ -147,6 +147,8 @@ Codex should operate like this:
 
 `tools/` already includes CLI commands that enforce the workflow:
 
+- `scan_project.py` — produce a structured JSON summary of a repository
+- `init_index.py` — generate a draft `CODEBASE_INDEX.md`
 - `bootstrap.py` — bootstrap the mandatory core into a new project
 - `scaffold_task.py` — create or replace `current-task.md`
 - `create_handoff.py` — append a structured handoff

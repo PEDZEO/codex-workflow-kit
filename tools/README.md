@@ -31,6 +31,22 @@ python tools\validate_workflow.py
 
 ## Commands
 
+### scan_project.py
+
+Сканирует репозиторий и выводит структурированный JSON summary.
+
+```powershell
+python tools/scan_project.py --target .
+```
+
+### init_index.py
+
+Генерирует черновик `CODEBASE_INDEX` на основе structural scan.
+
+```powershell
+python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
+```
+
 ### bootstrap.py
 
 Разворачивает mandatory core в новый проект.
@@ -103,3 +119,4 @@ python tools/acceptance_check.py --scope --behavior --verification --regression 
 - Они не пытаются анализировать архитектуру за тебя.
 - Их цель: сделать нарушение процесса более заметным и дорогим.
 - `bootstrap.py` копирует только mandatory core, а не весь kit целиком.
+- `scan_project.py` и `init_index.py` строят черновик архитектурной карты, но не заменяют ручной review.
