@@ -202,6 +202,8 @@ my-project/
 - `.gitattributes` — нормализация текстовых файлов для Git
 - `.gitignore` — исключение локального runtime-мусора
 - `LICENSE` — MIT
+- `CHANGELOG.md` — история заметных изменений
+- `CONTRIBUTING.md` — правила и ожидания для внешних вкладов
 
 ## Ограничения
 
@@ -224,3 +226,9 @@ my-project/
 ## License
 
 MIT. См. [LICENSE](LICENSE).
+
+## Дополнительно
+
+- [English README](README.en.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)

@@ -190,6 +190,8 @@ my-project/
 - `.gitattributes` — text normalization for Git
 - `.gitignore` — local runtime and editor noise
 - `LICENSE` — MIT
+- `CHANGELOG.md` — notable project changes
+- `CONTRIBUTING.md` — contribution rules and expectations
 
 ## Limits
 
@@ -212,3 +214,9 @@ Its goal is different: make a good workflow cheap to follow and expensive to ign
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## More
+
+- [Russian README](README.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)

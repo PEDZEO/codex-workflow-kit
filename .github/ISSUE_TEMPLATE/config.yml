@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Repository README
+    url: https://github.com/PEDZEO/codex-workflow-kit/blob/main/README.md
+    about: Read the project overview and quick start before opening an issue.
+  - name: Contributing Guide
+    url: https://github.com/PEDZEO/codex-workflow-kit/blob/main/CONTRIBUTING.md
+    about: Read contribution rules before proposing a larger change.
