@@ -1,8 +1,11 @@
 # Codex Workflow Kit
 
+[English](README.en.md) | Русский
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](tools/README.md)
 [![Repository](https://img.shields.io/badge/GitHub-PEDZEO%2Fcodex--workflow--kit-black.svg)](https://github.com/PEDZEO/codex-workflow-kit)
+[![CI](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml)
 
 Строгий workflow-kit для Codex: быстрый поиск по репозиторию, короткая рабочая память, контролируемое делегирование агентам и жесткая приемка результата.
 

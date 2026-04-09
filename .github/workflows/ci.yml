@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  smoke:
+    name: Smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python version
+        run: python --version
+
+      - name: Validate workflow templates
+        run: python tools/validate_workflow.py --memory-dir memory
+
+      - name: Scaffold task
+        run: >
+          python tools/scaffold_task.py
+          --memory-dir memory
+          --goal "CI smoke check"
+          --done-criteria "Smoke commands complete successfully"
+          --scope "tools/, memory/"
+          --tests "python tools/validate_workflow.py --memory-dir memory"
+          --next-step "Run the remaining CLI commands"
+          --delegate "none"
+
+      - name: Create handoff
+        run: >
+          python tools/create_handoff.py
+          --memory-dir memory
+          --role reviewer
+          --objective "Review CI smoke workflow wording"
+          --owned-files "README.md, tools/README.md"
+          --out-of-scope "Python implementation"
+
+      - name: Acceptance check
+        run: >
+          python tools/acceptance_check.py
+          --scope
+          --behavior
+          --verification
+          --regression
+          --memory
+
+      - name: Close task
+        run: >
+          python tools/close_task.py
+          --memory-dir memory
+          --task "CI smoke check"
+          --files "tools/, memory/"
+          --verification "validate_workflow + acceptance_check"
+          --risk "No major risk in smoke mode"
+
+      - name: Validate workflow templates again
+        run: python tools/validate_workflow.py --memory-dir memory

@@ -2,6 +2,8 @@
 
 Эти скрипты превращают markdown-процесс в более жесткий workflow.
 
+CI smoke-check for the CLI lives in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+
 ## Requirements
 
 - Python 3.10+
