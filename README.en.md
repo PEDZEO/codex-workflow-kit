@@ -5,7 +5,7 @@ English | [Русский](README.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](tools/README.md)
 [![Repository](https://img.shields.io/badge/GitHub-PEDZEO%2Fcodex--workflow--kit-black.svg)](https://github.com/PEDZEO/codex-workflow-kit)
-[![CI](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml)
+[![CI](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/PEDZEO/codex-workflow-kit/actions/workflows/ci.yml)
 
 Strict workflow kit for Codex: narrow repository search, short working memory, controlled agent delegation, and explicit acceptance before closing work.
 
