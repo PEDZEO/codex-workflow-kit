@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from common import configure_stdout, write_text
+from common import configure_stdout, emit_json, emit_output
 from scan_project import build_summary, classify_test_commands, map_tests_to_areas
 
 
@@ -11,6 +11,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate a draft TEST_INDEX.md from repository scan heuristics")
     parser.add_argument("--target", default=".", help="Target project directory")
     parser.add_argument("--output", default="TEST_INDEX.generated.md", help="Output file path")
+    parser.add_argument("--format", choices=["markdown", "json"], default="markdown", help="Output format")
     return parser
 
 
@@ -42,6 +43,7 @@ def render(summary: dict[str, object]) -> str:
     tests = summary.get("tests", {})
     test_dirs = tests.get("directories", []) if isinstance(tests, dict) else []
     area_map = map_tests_to_areas(summary)
+    confidence_notes = summary.get("confidence_notes", {})
 
     all_commands_block = []
     for item in commands[:12]:
@@ -79,6 +81,7 @@ Generated draft. Review and refine before relying on it.
 ## Notes For Codex
 
 - Detected test directories: {", ".join(test_dirs) if test_dirs else "Needs review"}
+- Confidence: {confidence_notes.get('tests', {}).get('confidence', 'unknown')} ({confidence_notes.get('tests', {}).get('reason', 'Needs review')})
 - If no commands were detected, inspect package scripts, Makefile, or project config manually.
 - Keep this file aligned with real verification practice.
 """
@@ -89,15 +92,27 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
     target = Path(args.target).resolve()
-    output = Path(args.output)
-    if not output.is_absolute():
-        output = target / output
     summary = build_summary(target)
-    write_text(output, render(summary))
-    print(f"Generated {output}")
+    output = args.output
+    if output != "-":
+        output_path = Path(output)
+        if not output_path.is_absolute():
+            output_path = target / output_path
+        output = str(output_path)
+    payload = {
+        "commands": classify_test_commands(summary.get("commands", [])),
+        "tests": summary.get("tests", {}),
+        "feature_map": map_tests_to_areas(summary),
+        "confidence_notes": summary.get("confidence_notes", {}).get("tests", {}),
+    }
+    if args.format == "json":
+        emit_json(output, payload)
+    else:
+        emit_output(output, render(summary))
+    if output != "-":
+        print(f"Generated {output}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

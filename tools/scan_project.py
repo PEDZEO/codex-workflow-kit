@@ -132,6 +132,14 @@ AREA_HINTS = {
 }
 
 
+def score_to_confidence(score: int) -> str:
+    if score >= 4:
+        return "high"
+    if score >= 2:
+        return "medium"
+    return "low"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Scan a repository and emit a structured project summary")
     parser.add_argument("--target", default=".", help="Target project directory")
@@ -343,6 +351,7 @@ def find_entrypoints(root: Path, files: list[Path]) -> list[dict[str, Any]]:
                 {
                     "path": rel.as_posix(),
                     "score": score,
+                    "confidence": score_to_confidence(score),
                     "reasons": reason,
                 }
             )
@@ -442,7 +451,8 @@ def detect_area_hints(root: Path) -> list[dict[str, Any]]:
     for area, hints in AREA_HINTS.items():
         matches = [name for name in top_level if any(hint in name.lower() for hint in hints)]
         if matches:
-            found.append({"area": area, "matches": matches})
+            confidence = "high" if len(matches) >= 2 else "medium"
+            found.append({"area": area, "matches": matches, "confidence": confidence})
     return found
 
 
@@ -498,6 +508,10 @@ def detect_package_manager(root: Path) -> str | None:
 def build_summary(root: Path) -> dict[str, Any]:
     files = iter_files(root)
     languages = detect_languages(files)
+    commands = collect_commands(root)
+    tests = find_tests(root, files)
+    entrypoints = find_entrypoints(root, files)
+    area_hints = detect_area_hints(root)
     return {
         "project_root": str(root),
         "project_name": root.name,
@@ -505,13 +519,14 @@ def build_summary(root: Path) -> dict[str, Any]:
         "languages": languages,
         "frameworks": detect_frameworks(root),
         "package_manager": detect_package_manager(root),
-        "entrypoints": find_entrypoints(root, files),
+        "entrypoints": entrypoints,
         "main_directories": find_main_directories(root),
         "important_files": find_configs(root, files),
         "ci_files": detect_ci(files, root),
-        "tests": find_tests(root, files),
-        "commands": collect_commands(root),
-        "area_hints": detect_area_hints(root),
+        "tests": tests,
+        "commands": commands,
+        "area_hints": area_hints,
+        "confidence_notes": build_confidence_notes(languages, entrypoints, tests, commands, area_hints),
     }
 
 
@@ -577,9 +592,41 @@ def build_change_area_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
                     "directories": area_dirs[:8],
                     "entrypoints": area_entries[:8],
                     "tests": area_tests[:8],
+                    "confidence": "high" if area_dirs and area_entries else "medium",
                 }
             )
     return areas
+
+
+def build_confidence_notes(
+    languages: list[dict[str, Any]],
+    entrypoints: list[dict[str, Any]],
+    tests: dict[str, Any],
+    commands: list[dict[str, str]],
+    area_hints: list[dict[str, Any]],
+) -> dict[str, Any]:
+    notes: dict[str, Any] = {}
+    notes["primary_language"] = {
+        "confidence": "high" if languages else "low",
+        "reason": "Detected from file extensions" if languages else "No language-bearing source files detected",
+    }
+    notes["entrypoints"] = {
+        "confidence": entrypoints[0]["confidence"] if entrypoints else "low",
+        "reason": "Based on filename and runtime patterns" if entrypoints else "No strong entrypoint candidates detected",
+    }
+    notes["tests"] = {
+        "confidence": "medium" if tests.get("count", 0) else "low",
+        "reason": "Based on filename and directory heuristics" if tests.get("count", 0) else "No test files matched test heuristics",
+    }
+    notes["commands"] = {
+        "confidence": "medium" if commands else "low",
+        "reason": "Extracted from project manifests and Makefile" if commands else "No runnable commands detected automatically",
+    }
+    notes["areas"] = {
+        "confidence": "medium" if area_hints else "low",
+        "reason": "Derived from top-level directory names" if area_hints else "No strong area hints found from directory names",
+    }
+    return notes
 
 
 def main() -> int:

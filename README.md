@@ -160,6 +160,7 @@ python tools/bootstrap.py --target ..\my-project
 - `init_test_index.py` — сгенерировать черновик `TEST_INDEX.md`
 - `init_change_areas.py` — сгенерировать черновик `CHANGE_AREAS.md`
 - `refresh_index.py` — обновить машинные секции существующего `CODEBASE_INDEX.md`
+- `explain_scan.py` — объяснить, что именно сканер нашел и почему
 - `bootstrap.py` — развернуть mandatory core в новый проект
 - `scaffold_task.py` — создать или обновить `current-task.md`
 - `create_handoff.py` — добавить structured handoff

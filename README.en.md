@@ -152,6 +152,7 @@ Codex should operate like this:
 - `init_test_index.py` — generate a draft `TEST_INDEX.md`
 - `init_change_areas.py` — generate a draft `CHANGE_AREAS.md`
 - `refresh_index.py` — refresh machine-generated sections of an existing `CODEBASE_INDEX.md`
+- `explain_scan.py` — explain what the scanner found and why
 - `bootstrap.py` — bootstrap the mandatory core into a new project
 - `scaffold_task.py` — create or replace `current-task.md`
 - `create_handoff.py` — append a structured handoff

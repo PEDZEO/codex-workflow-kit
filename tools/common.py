@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import os
 from pathlib import Path
 import sys
@@ -90,3 +91,15 @@ def configure_stdout() -> None:
     if hasattr(stream, "reconfigure"):
         # Windows CI can default to cp1252 and crash on Cyrillic output.
         stream.reconfigure(encoding="utf-8", errors="backslashreplace")
+
+
+def emit_output(output: str, text: str) -> None:
+    if output == "-":
+        print(text)
+    else:
+        write_text(Path(output), text)
+
+
+def emit_json(output: str, payload: object) -> None:
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    emit_output(output, text)

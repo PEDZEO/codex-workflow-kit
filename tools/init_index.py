@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from common import configure_stdout, write_text
+from common import configure_stdout, emit_json, emit_output
 from scan_project import build_summary
 
 
@@ -15,6 +15,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="CODEBASE_INDEX.generated.md",
         help="Output file path for the generated index draft",
     )
+    parser.add_argument("--format", choices=["markdown", "json"], default="markdown", help="Output format")
     return parser
 
 
@@ -72,6 +73,7 @@ def render(summary: dict[str, object]) -> str:
     ci_files = summary.get("ci_files", [])
     tests = summary.get("tests", {})
     commands = summary.get("commands", [])
+    confidence_notes = summary.get("confidence_notes", {})
 
     primary_language = summary.get("primary_language") or "Needs review"
     frameworks_text = ", ".join(frameworks) if frameworks else "Needs review"
@@ -128,6 +130,12 @@ Generated draft. Review and refine before treating it as canonical.
 
 ## Notes For Codex
 
+- Confidence notes:
+- Primary language: {confidence_notes.get('primary_language', {}).get('confidence', 'unknown')} ({confidence_notes.get('primary_language', {}).get('reason', 'Needs review')})
+- Entry points: {confidence_notes.get('entrypoints', {}).get('confidence', 'unknown')} ({confidence_notes.get('entrypoints', {}).get('reason', 'Needs review')})
+- Tests: {confidence_notes.get('tests', {}).get('confidence', 'unknown')} ({confidence_notes.get('tests', {}).get('reason', 'Needs review')})
+- Commands: {confidence_notes.get('commands', {}).get('confidence', 'unknown')} ({confidence_notes.get('commands', {}).get('reason', 'Needs review')})
+- Areas: {confidence_notes.get('areas', {}).get('confidence', 'unknown')} ({confidence_notes.get('areas', {}).get('reason', 'Needs review')})
 - This file was generated from structural scanning and heuristics.
 - Verify entry points, test runner, and business-purpose descriptions manually.
 - Update this file when architecture or repository structure changes.
@@ -140,14 +148,20 @@ def main() -> int:
     args = parser.parse_args()
     target = Path(args.target).resolve()
     summary = build_summary(target)
-    output = Path(args.output)
-    if not output.is_absolute():
-        output = target / output
-    write_text(output, render(summary))
-    print(f"Generated {output}")
+    output = args.output
+    if output != "-":
+        output_path = Path(output)
+        if not output_path.is_absolute():
+            output_path = target / output_path
+        output = str(output_path)
+    if args.format == "json":
+        emit_json(output, summary)
+    else:
+        emit_output(output, render(summary))
+    if output != "-":
+        print(f"Generated {output}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

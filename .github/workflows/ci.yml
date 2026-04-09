@@ -41,6 +41,9 @@ jobs:
       - name: Generate draft change areas
         run: python tools/init_change_areas.py --target . --output CHANGE_AREAS.generated.md
 
+      - name: Explain scan
+        run: python tools/explain_scan.py --target . --format markdown --output SCAN_EXPLANATION.md
+
       - name: Copy canonical index for refresh smoke test
         run: >
           python -c

@@ -39,12 +39,24 @@ python tools\validate_workflow.py
 python tools/scan_project.py --target .
 ```
 
+Можно писать в файл:
+
+```powershell
+python tools/scan_project.py --target . --output scan-summary.json
+```
+
 ### init_index.py
 
 Генерирует черновик `CODEBASE_INDEX` на основе structural scan.
 
 ```powershell
 python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
+```
+
+JSON-режим в stdout:
+
+```powershell
+python tools/init_index.py --target . --format json --output -
 ```
 
 ### init_test_index.py
@@ -55,6 +67,12 @@ python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
 python tools/init_test_index.py --target . --output TEST_INDEX.generated.md
 ```
 
+Markdown в stdout:
+
+```powershell
+python tools/init_test_index.py --target . --output -
+```
+
 ### init_change_areas.py
 
 Генерирует черновик `CHANGE_AREAS` на основе directory и entrypoint heuristics.
@@ -63,12 +81,32 @@ python tools/init_test_index.py --target . --output TEST_INDEX.generated.md
 python tools/init_change_areas.py --target . --output CHANGE_AREAS.generated.md
 ```
 
+JSON-режим:
+
+```powershell
+python tools/init_change_areas.py --target . --format json --output -
+```
+
 ### refresh_index.py
 
 Обновляет машинные секции существующего `CODEBASE_INDEX.md` без полного перетирания файла.
 
 ```powershell
 python tools/refresh_index.py --target . --index CODEBASE_INDEX.md
+```
+
+### explain_scan.py
+
+Кратко объясняет, что scanner обнаружил и почему.
+
+```powershell
+python tools/explain_scan.py --target .
+```
+
+Markdown-режим:
+
+```powershell
+python tools/explain_scan.py --target . --format markdown
 ```
 
 ### bootstrap.py
@@ -146,3 +184,4 @@ python tools/acceptance_check.py --scope --behavior --verification --regression 
 - `scan_project.py` и `init_index.py` строят черновик архитектурной карты, но не заменяют ручной review.
 - `init_test_index.py` и `init_change_areas.py` дают черновики для test map и change areas, а не финальную архитектурную истину.
 - `refresh_index.py` обновляет только машинные секции и должен использоваться поверх уже просмотренного человеком индекса.
+- Генераторы поддерживают `--output -` для stdout и `--format json` там, где это имеет смысл.
