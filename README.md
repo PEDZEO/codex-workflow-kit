@@ -9,6 +9,10 @@
 - делегировал работу агентам по правилам, а не случайно;
 - не завершал задачу без явной проверки.
 
+Repository:
+
+- `https://github.com/PEDZEO/codex-workflow-kit`
+
 ## Что это дает
 
 Система строится на четырех вещах:
@@ -44,7 +48,7 @@
 ### Linux
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/PEDZEO/codex-workflow-kit.git
 cd codex-workflow-kit
 python3 --version
 python3 tools/bootstrap.py --target ../my-project
@@ -66,7 +70,7 @@ sudo pacman -S ripgrep
 ### Windows
 
 ```powershell
-git clone <repo-url>
+git clone https://github.com/PEDZEO/codex-workflow-kit.git
 cd codex-workflow-kit
 python --version
 python tools/bootstrap.py --target ..\my-project
