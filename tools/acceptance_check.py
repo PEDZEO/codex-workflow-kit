@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 
+from common import configure_stdout
+
 
 GATES = {
     "scope": "Изменены только нужные зоны и нет случайных правок вне задачи",
@@ -23,6 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    configure_stdout()
     parser = build_parser()
     args = parser.parse_args()
     missing = [name for name in GATES if not getattr(args, name)]
@@ -40,4 +43,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

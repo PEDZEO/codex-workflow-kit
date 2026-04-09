@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import os
 from pathlib import Path
+import sys
 
 
 ROOT_FILES = [
@@ -82,3 +83,10 @@ def append_section(path: Path, section: str) -> None:
     existing = read_text(path) if path.exists() else ""
     combined = existing.rstrip() + "\n\n" + section.strip() + "\n"
     write_text(path, combined)
+
+
+def configure_stdout() -> None:
+    stream = sys.stdout
+    if hasattr(stream, "reconfigure"):
+        # Windows CI can default to cp1252 and crash on Cyrillic output.
+        stream.reconfigure(encoding="utf-8", errors="backslashreplace")
