@@ -47,6 +47,30 @@ python tools/scan_project.py --target .
 python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
 ```
 
+### init_test_index.py
+
+Генерирует черновик `TEST_INDEX` на основе scan summary и команд проекта.
+
+```powershell
+python tools/init_test_index.py --target . --output TEST_INDEX.generated.md
+```
+
+### init_change_areas.py
+
+Генерирует черновик `CHANGE_AREAS` на основе directory и entrypoint heuristics.
+
+```powershell
+python tools/init_change_areas.py --target . --output CHANGE_AREAS.generated.md
+```
+
+### refresh_index.py
+
+Обновляет машинные секции существующего `CODEBASE_INDEX.md` без полного перетирания файла.
+
+```powershell
+python tools/refresh_index.py --target . --index CODEBASE_INDEX.md
+```
+
 ### bootstrap.py
 
 Разворачивает mandatory core в новый проект.
@@ -120,3 +144,5 @@ python tools/acceptance_check.py --scope --behavior --verification --regression 
 - Их цель: сделать нарушение процесса более заметным и дорогим.
 - `bootstrap.py` копирует только mandatory core, а не весь kit целиком.
 - `scan_project.py` и `init_index.py` строят черновик архитектурной карты, но не заменяют ручной review.
+- `init_test_index.py` и `init_change_areas.py` дают черновики для test map и change areas, а не финальную архитектурную истину.
+- `refresh_index.py` обновляет только машинные секции и должен использоваться поверх уже просмотренного человеком индекса.

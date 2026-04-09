@@ -294,6 +294,25 @@ def scan_makefile(root: Path) -> list[dict[str, str]]:
     return commands[:30]
 
 
+def infer_command_category(name: str, command: str) -> str:
+    text = f"{name} {command}".lower()
+    if any(token in text for token in ("lint", "eslint", "ruff", "flake8")):
+        return "lint"
+    if any(token in text for token in ("typecheck", "mypy", "pyright", "tsc")):
+        return "typecheck"
+    if any(token in text for token in ("test", "pytest", "vitest", "jest", "go test", "cargo test")):
+        if any(token in text for token in ("integration", "e2e", "end-to-end")):
+            return "integration"
+        if any(token in text for token in ("smoke", "quick")):
+            return "smoke"
+        if any(token in text for token in ("unit",)):
+            return "unit"
+        return "test"
+    if any(token in text for token in ("run", "start", "dev", "serve", "uvicorn")):
+        return "run"
+    return "other"
+
+
 def find_entrypoints(root: Path, files: list[Path]) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     for path in files:
@@ -449,7 +468,16 @@ def collect_commands(root: Path) -> list[dict[str, str]]:
             continue
         seen.add(key)
         deduped.append(item)
-    return deduped[:50]
+    enriched: list[dict[str, str]] = []
+    for item in deduped[:50]:
+        enriched.append(
+            {
+                "name": item["name"],
+                "command": item["command"],
+                "category": infer_command_category(item["name"], item["command"]),
+            }
+        )
+    return enriched
 
 
 def detect_frameworks(root: Path) -> list[str]:
@@ -485,6 +513,73 @@ def build_summary(root: Path) -> dict[str, Any]:
         "commands": collect_commands(root),
         "area_hints": detect_area_hints(root),
     }
+
+
+def classify_test_commands(commands: list[dict[str, str]]) -> dict[str, list[dict[str, str]]]:
+    grouped: dict[str, list[dict[str, str]]] = {
+        "unit": [],
+        "smoke": [],
+        "integration": [],
+        "test": [],
+        "lint": [],
+        "typecheck": [],
+    }
+    for item in commands:
+        category = item.get("category", "other")
+        if category in grouped:
+            grouped[category].append(item)
+        elif category == "other":
+            continue
+        else:
+            grouped["test"].append(item)
+    return grouped
+
+
+def map_tests_to_areas(summary: dict[str, Any]) -> dict[str, list[str]]:
+    tests = summary.get("tests", {})
+    sample_files = tests.get("sample_files", []) if isinstance(tests, dict) else []
+    result: dict[str, list[str]] = {
+        "Auth": [],
+        "API": [],
+        "UI or bot": [],
+        "Notifications": [],
+        "Data layer": [],
+    }
+    for sample in sample_files:
+        lower = sample.lower()
+        if any(token in lower for token in ("auth", "login", "session", "token")):
+            result["Auth"].append(sample)
+        if any(token in lower for token in ("api", "route", "server", "endpoint")):
+            result["API"].append(sample)
+        if any(token in lower for token in ("ui", "frontend", "web", "bot", "handler", "callback")):
+            result["UI or bot"].append(sample)
+        if any(token in lower for token in ("notify", "notification", "webhook", "telegram", "email")):
+            result["Notifications"].append(sample)
+        if any(token in lower for token in ("db", "repo", "repository", "storage", "model")):
+            result["Data layer"].append(sample)
+    return {key: values[:8] for key, values in result.items()}
+
+
+def build_change_area_summary(summary: dict[str, Any]) -> list[dict[str, Any]]:
+    directories = summary.get("main_directories", [])
+    entrypoints = summary.get("entrypoints", [])
+    tests = summary.get("tests", {})
+    sample_tests = tests.get("sample_files", []) if isinstance(tests, dict) else []
+    areas: list[dict[str, Any]] = []
+    for area_name, hints in AREA_HINTS.items():
+        area_dirs = [item["path"] for item in directories if any(h in item["path"].lower() for h in hints)]
+        area_entries = [item["path"] for item in entrypoints if any(h in item["path"].lower() for h in hints)]
+        area_tests = [path for path in sample_tests if any(h in path.lower() for h in hints)]
+        if area_dirs or area_entries or area_tests:
+            areas.append(
+                {
+                    "area": area_name,
+                    "directories": area_dirs[:8],
+                    "entrypoints": area_entries[:8],
+                    "tests": area_tests[:8],
+                }
+            )
+    return areas
 
 
 def main() -> int:

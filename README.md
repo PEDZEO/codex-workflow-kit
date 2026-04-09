@@ -157,6 +157,9 @@ python tools/bootstrap.py --target ..\my-project
 
 - `scan_project.py` — собрать структурированный JSON summary проекта
 - `init_index.py` — сгенерировать черновик `CODEBASE_INDEX.md`
+- `init_test_index.py` — сгенерировать черновик `TEST_INDEX.md`
+- `init_change_areas.py` — сгенерировать черновик `CHANGE_AREAS.md`
+- `refresh_index.py` — обновить машинные секции существующего `CODEBASE_INDEX.md`
 - `bootstrap.py` — развернуть mandatory core в новый проект
 - `scaffold_task.py` — создать или обновить `current-task.md`
 - `create_handoff.py` — добавить structured handoff

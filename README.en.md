@@ -149,6 +149,9 @@ Codex should operate like this:
 
 - `scan_project.py` — produce a structured JSON summary of a repository
 - `init_index.py` — generate a draft `CODEBASE_INDEX.md`
+- `init_test_index.py` — generate a draft `TEST_INDEX.md`
+- `init_change_areas.py` — generate a draft `CHANGE_AREAS.md`
+- `refresh_index.py` — refresh machine-generated sections of an existing `CODEBASE_INDEX.md`
 - `bootstrap.py` — bootstrap the mandatory core into a new project
 - `scaffold_task.py` — create or replace `current-task.md`
 - `create_handoff.py` — append a structured handoff

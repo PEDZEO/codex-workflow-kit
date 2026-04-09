@@ -35,6 +35,21 @@ jobs:
       - name: Generate draft index
         run: python tools/init_index.py --target . --output CODEBASE_INDEX.generated.md
 
+      - name: Generate draft test index
+        run: python tools/init_test_index.py --target . --output TEST_INDEX.generated.md
+
+      - name: Generate draft change areas
+        run: python tools/init_change_areas.py --target . --output CHANGE_AREAS.generated.md
+
+      - name: Copy canonical index for refresh smoke test
+        run: >
+          python -c
+          "from pathlib import Path; src = Path('CODEBASE_INDEX.md'); dst = Path('CODEBASE_INDEX.smoke.md');
+          dst.write_text(src.read_text(encoding='utf-8'), encoding='utf-8', newline='\n')"
+
+      - name: Refresh canonical index
+        run: python tools/refresh_index.py --target . --index CODEBASE_INDEX.smoke.md
+
       - name: Scaffold task
         run: >
           python tools/scaffold_task.py
