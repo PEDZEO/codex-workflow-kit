@@ -129,6 +129,18 @@ python tools/bootstrap.py --target ..\my-project --force
 python tools/bootstrap.py --target ..\my-project --profile core
 ```
 
+Preview what bootstrap would do without writing files:
+
+```powershell
+python tools/bootstrap.py --target ..\my-project --dry-run
+```
+
+Update an existing local install without resetting live memory:
+
+```powershell
+python tools/bootstrap.py --target ..\my-project --force --skip-memory
+```
+
 ### scaffold_task.py
 
 Создает или полностью обновляет `.codex/memory/current-task.md`.
@@ -179,6 +191,18 @@ python tools/validate_workflow.py --memory-dir memory
 
 ```powershell
 python tools/acceptance_check.py --scope --behavior --verification --regression --memory
+```
+
+With concrete checks:
+
+```powershell
+python tools/acceptance_check.py --scope --behavior --verification --regression --memory --require-current-task-updated --verification-command "python -B -m unittest discover -s tests -v"
+```
+
+### Local test command
+
+```powershell
+python -B -m unittest discover -s tests -v
 ```
 
 ## Notes

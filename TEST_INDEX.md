@@ -1,61 +1,51 @@
 # TEST_INDEX.md
 
-Нужен для быстрого выбора минимальной релевантной проверки.
+Generated draft. Review and refine before relying on it.
 
 ## Test Commands
 
-```powershell
-# unit
+```text
+# codex-workflow-bootstrap (other)
+tools.bootstrap:main
 
-# feature
+# codex-workflow-scan (other)
+tools.scan_project:main
 
-# integration
+# codex-workflow-validate (other)
+tools.validate_workflow:main
 
-# smoke
-
-# lint
-
-# typecheck
+# codex-workflow-acceptance (other)
+tools.acceptance_check:main
 ```
 
 ## Fast Tests
 
-- Команда:
-  - Что покрывает:
-  - Когда запускать:
-
-- Команда:
-  - Что покрывает:
-  - Когда запускать:
+- No fast test commands detected automatically
 
 ## Medium Tests
 
-- Команда:
-  - Что покрывает:
-  - Когда запускать:
+- No medium test commands detected automatically
 
 ## Expensive Tests
 
-- Команда:
-  - Что покрывает:
-  - Когда запускать:
-  - Когда не запускать без причины:
+- No expensive test commands detected automatically
 
 ## Feature Map
 
 - Auth:
-  - Тесты:
+  - Тесты: Needs review
 - API:
-  - Тесты:
+  - Тесты: Needs review
 - UI or bot:
-  - Тесты:
+  - Тесты: Needs review
 - Notifications:
-  - Тесты:
+  - Тесты: Needs review
 - Data layer:
-  - Тесты:
+  - Тесты: Needs review
 
 ## Notes For Codex
 
-- Сначала выбирай самый узкий достаточный набор тестов.
-- Если тестов нет, фиксируй это как риск.
-- Если есть дорогой набор тестов, не запускай его без причины.
+- Detected test directories: tests
+- Confidence: medium (Based on filename and directory heuristics)
+- If no commands were detected, inspect package scripts, Makefile, or project config manually.
+- Keep this file aligned with real verification practice.

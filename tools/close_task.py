@@ -4,7 +4,10 @@ import argparse
 from datetime import date
 from textwrap import dedent
 
-from common import read_text, workflow_paths, write_text
+try:
+    from .common import read_text, workflow_paths, write_text
+except ImportError:  # pragma: no cover - direct script execution
+    from common import read_text, workflow_paths, write_text
 
 
 RESET_TEMPLATE = dedent(

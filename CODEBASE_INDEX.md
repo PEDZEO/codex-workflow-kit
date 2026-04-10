@@ -4,46 +4,43 @@
 
 ## Project Summary
 
-- Project name:
-- Main purpose:
-- Primary language:
-- Frameworks:
-- Package manager:
-- Test runner:
+- Project name: codex-workflow-kit
+- Main purpose: Needs review
+- Primary language: Python
+- Frameworks: Needs review
+- Package manager: pip/pyproject
+- Test runner: Needs review
 
 ## Entry Points
 
-- App entry:
-- API entry:
-- Worker entry:
-- CLI entry:
+- tools/acceptance_check.py  (runtime entrypoint pattern, main function pattern)
+- tools/bootstrap.py  (runtime entrypoint pattern, main function pattern)
+- tools/close_task.py  (runtime entrypoint pattern, main function pattern)
+- tools/create_handoff.py  (runtime entrypoint pattern, main function pattern)
+- tools/explain_scan.py  (runtime entrypoint pattern, main function pattern)
+- tools/init_change_areas.py  (runtime entrypoint pattern, main function pattern)
+- tools/init_index.py  (runtime entrypoint pattern, main function pattern)
+- tools/refresh_index.py  (runtime entrypoint pattern, main function pattern)
 
 ## Main Directories
 
-- `src/`
-  - что находится здесь:
-- `server/`
-  - что находится здесь:
-- `bot/`
-  - что находится здесь:
+- `.github/`
+  - Needs review
+- `examples/`
+  - Needs review
+- `memory/`
+  - Needs review
+- `templates/`
+  - Needs review
 - `tests/`
-  - что находится здесь:
-- `scripts/`
-  - что находится здесь:
-- `docs/`
-  - что находится здесь:
-
-Удалить или заменить эти секции под реальный проект.
+  - Tests
+- `tools/`
+  - Automation and utility scripts
 
 ## Important Files
 
-- Main config:
-- Env example:
-- Dependency manifest:
-- Build config:
-- CI config:
-- Lint config:
-- Type config:
+- .github/workflows/ci.yml
+- pyproject.toml
 
 ## Key Flows
 
@@ -66,23 +63,25 @@
 
 ## Test Map
 
-- Fast smoke tests:
-- Feature tests:
-- Integration tests:
-- High-cost tests:
+- Test directories: tests
+- Detected test files: 1
+- Sample test files:
+- tests/test_workflow_tools.py
 
 ## Common Commands
 
-```powershell
-# install
+```text
+# codex-workflow-bootstrap
+tools.bootstrap:main
 
-# test
+# codex-workflow-scan
+tools.scan_project:main
 
-# lint
+# codex-workflow-validate
+tools.validate_workflow:main
 
-# typecheck
-
-# run app
+# codex-workflow-acceptance
+tools.acceptance_check:main
 ```
 
 ## Notes For Codex
@@ -90,3 +89,11 @@
 - Сначала смотри сюда, потом ищи по дереву.
 - Если структура проекта изменилась, обнови этот файл.
 - Не превращай индекс в длиннюю документацию.
+
+## CI Files
+
+- .github/workflows/ci.yml
+
+## Area Hints
+
+- No area hints detected automatically

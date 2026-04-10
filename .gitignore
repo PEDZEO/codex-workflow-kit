@@ -24,3 +24,7 @@ Thumbs.db
 # Temporary test output
 tmp/
 bootstrap-test/
+*.generated.md
+*.tmp.*
+SCAN_EXPLANATION.md
+scan-summary.json

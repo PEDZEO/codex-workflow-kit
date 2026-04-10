@@ -3,7 +3,10 @@ from __future__ import annotations
 import argparse
 from textwrap import dedent
 
-from common import append_section, workflow_paths
+try:
+    from .common import append_section, workflow_paths
+except ImportError:  # pragma: no cover - direct script execution
+    from common import append_section, workflow_paths
 
 
 def build_parser() -> argparse.ArgumentParser:

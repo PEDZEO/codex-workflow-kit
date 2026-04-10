@@ -1,47 +1,14 @@
 # CHANGE_AREAS.md
 
-Карта областей, чтобы быстро понимать, куда направлять агента и где возможны регрессии.
+Generated draft. Review and refine before using it for strict delegation.
 
 ## Areas
 
-- API
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
-
-- UI
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
-
-- Bot or handlers
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
-
-- Data layer
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
-
-- Auth
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
-
-- Notifications
-  - Основные директории:
-  - Главные entrypoints:
-  - Основные риски:
-  - Типичные тесты:
+- No change areas detected automatically
 
 ## Delegation Rule
 
+- Confidence: low (No strong area hints found from directory names)
 - Один агент должен владеть одной зоной записи.
 - Если задача затрагивает две зоны, критический путь лучше держать локально.
 - Если зона не определена, сначала отправляй `explorer`.

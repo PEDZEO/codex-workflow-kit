@@ -3,9 +3,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from common import configure_stdout, read_text, write_text
-from init_index import render as render_index
-from scan_project import build_summary
+try:
+    from .common import configure_stdout, read_text, write_text
+    from .init_index import render as render_index
+    from .scan_project import build_summary
+except ImportError:  # pragma: no cover - direct script execution
+    from common import configure_stdout, read_text, write_text
+    from init_index import render as render_index
+    from scan_project import build_summary
 
 
 SECTION_HEADERS = [

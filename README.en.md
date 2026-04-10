@@ -179,6 +179,28 @@ Codex should operate like this:
 
 More details and command examples: [tools/README.md](tools/README.md)
 
+## Development Commands
+
+```powershell
+# run unit tests without writing .pyc files
+python -B -m unittest discover -s tests -v
+
+# validate the distributable memory templates
+python tools/validate_workflow.py --memory-dir memory
+
+# preview bootstrap output without writing files
+python tools/bootstrap.py --target bootstrap-test --dry-run
+
+# update an existing local install without resetting live memory
+python tools/bootstrap.py --target ..\my-project --force --skip-memory
+```
+
+`acceptance_check.py` can also run concrete checks when a task needs stricter closure:
+
+```powershell
+python tools/acceptance_check.py --scope --behavior --verification --regression --memory --require-current-task-updated --verification-command "python -B -m unittest discover -s tests -v"
+```
+
 ## Structure After Bootstrap
 
 ```text

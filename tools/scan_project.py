@@ -7,7 +7,10 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from common import configure_stdout
+try:
+    from .common import configure_stdout
+except ImportError:  # pragma: no cover - direct script execution
+    from common import configure_stdout
 
 try:
     import tomllib  # type: ignore[attr-defined]
@@ -325,6 +328,13 @@ def find_entrypoints(root: Path, files: list[Path]) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     for path in files:
         rel = path.relative_to(root)
+        parts_lower = {part.lower() for part in rel.parts}
+        if parts_lower & {"test", "tests", "spec", "specs", "__tests__"}:
+            continue
+        if any("test" in part for part in parts_lower):
+            continue
+        if path.stem.lower().startswith("test_") or path.stem.lower().endswith("_test"):
+            continue
         score = 0
         reason: list[str] = []
 
@@ -425,8 +435,10 @@ def find_tests(root: Path, files: list[Path]) -> dict[str, Any]:
         )
         if is_test:
             test_files.append(rel_posix)
-            if rel.parts:
+            if len(rel.parts) > 1:
                 test_dirs[rel.parts[0]] += 1
+            else:
+                test_dirs["."] += 1
     return {
         "directories": [name for name, _ in test_dirs.most_common(10)],
         "sample_files": sorted(test_files)[:30],

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-workflow-kit"
+version = "0.1.0"
+description = "Strict workflow kit for Codex repository work."
+readme = "README.en.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[project.scripts]
+codex-workflow-bootstrap = "tools.bootstrap:main"
+codex-workflow-scan = "tools.scan_project:main"
+codex-workflow-validate = "tools.validate_workflow:main"
+codex-workflow-acceptance = "tools.acceptance_check:main"
+
+[tool.setuptools]
+packages = ["tools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"

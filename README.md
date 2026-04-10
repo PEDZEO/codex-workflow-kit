@@ -187,6 +187,26 @@ python tools/bootstrap.py --target ..\my-project
 
 Подробности и примеры запуска: [tools/README.md](tools/README.md)
 
+## Команды разработки
+
+```powershell
+# unit-тесты без записи .pyc-файлов
+python -B -m unittest discover -s tests -v
+
+# проверка шаблонов памяти, которые распространяются с kit
+python tools/validate_workflow.py --memory-dir memory
+
+# предварительный просмотр bootstrap без записи файлов
+python tools/bootstrap.py --target bootstrap-test --dry-run
+
+# обновление локальной установки без сброса live memory
+python tools/bootstrap.py --target ..\my-project --force --skip-memory
+```
+
+```powershell
+python tools/acceptance_check.py --scope --behavior --verification --regression --memory --require-current-task-updated --verification-command "python -B -m unittest discover -s tests -v"
+```
+
 ## Структура после bootstrap
 
 После разворачивания mandatory core проект будет выглядеть примерно так:

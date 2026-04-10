@@ -3,8 +3,12 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from common import configure_stdout, emit_json, emit_output
-from scan_project import build_summary
+try:
+    from .common import configure_stdout, emit_json, emit_output
+    from .scan_project import build_summary
+except ImportError:  # pragma: no cover - direct script execution
+    from common import configure_stdout, emit_json, emit_output
+    from scan_project import build_summary
 
 
 def build_parser() -> argparse.ArgumentParser:
